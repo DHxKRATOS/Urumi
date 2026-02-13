@@ -1,0 +1,47 @@
+🎉 WooCommerce Store "{{ .Values.storeName }}" has been deployed!
+
+📍 Access your store:
+{{- if .Values.ingress.enabled }}
+   URL: http{{ if .Values.ingress.tls.enabled }}s{{ end }}://{{ .Values.ingress.host }}
+{{- else }}
+   Run the following command to port-forward:
+   kubectl port-forward svc/{{ include "woocommerce-store.fullname" . }}-wordpress 8080:{{ .Values.wordpress.service.port }} -n {{ .Release.Namespace }}
+   Then access: http://localhost:8080
+{{- end }}
+
+📦 Resources created:
+   - MySQL StatefulSet: {{ include "woocommerce-store.fullname" . }}-mysql
+   - WordPress Deployment: {{ include "woocommerce-store.fullname" . }}-wordpress
+   - MySQL Service: {{ include "woocommerce-store.fullname" . }}-mysql
+   - WordPress Service: {{ include "woocommerce-store.fullname" . }}-wordpress
+{{- if .Values.ingress.enabled }}
+   - Ingress: {{ include "woocommerce-store.fullname" . }}-ingress
+{{- end }}
+
+🔐 Credentials:
+   MySQL credentials are stored in secret: {{ include "woocommerce-store.fullname" . }}-mysql-secret
+   
+   To retrieve MySQL password:
+   kubectl get secret {{ include "woocommerce-store.fullname" . }}-mysql-secret -n {{ .Release.Namespace }} -o jsonpath='{.data.mysql-password}' | base64 -d
+
+📋 Next steps:
+   1. Wait for all pods to be ready:
+      kubectl get pods -n {{ .Release.Namespace }} -w
+   
+   2. Access the WordPress setup page at the URL above
+   
+   3. Complete WordPress installation
+   
+   4. Install and activate WooCommerce plugin
+   
+   5. Configure your store!
+
+🔧 Useful commands:
+   # Check pod status
+   kubectl get pods -n {{ .Release.Namespace }}
+   
+   # View logs
+   kubectl logs -f deployment/{{ include "woocommerce-store.fullname" . }}-wordpress -n {{ .Release.Namespace }}
+   
+   # Uninstall
+   helm uninstall {{ .Release.Name }} -n {{ .Release.Namespace }}

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "woocommerce-store.fullname" . }}-mysql-pvc
+  labels:
+    {{- include "woocommerce-store.mysql.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  {{- if .Values.mysql.storage.storageClass }}
+  storageClassName: {{ .Values.mysql.storage.storageClass }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.mysql.storage.size }}

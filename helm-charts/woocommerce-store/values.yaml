@@ -1,0 +1,78 @@
+# Default values for woocommerce-store
+# This is a YAML-formatted file.
+
+# Store name - used in resource naming
+storeName: "my-store"
+
+# Ingress configuration
+ingress:
+  enabled: true
+  host: "my-store.localhost"
+  annotations:
+    kubernetes.io/ingress.class: traefik
+  tls:
+    enabled: false
+    secretName: ""
+
+# MySQL configuration
+mysql:
+  image:
+    repository: mysql
+    tag: "8.0"
+    pullPolicy: IfNotPresent
+  
+  # Database credentials
+  rootPassword: ""  # Auto-generated if empty
+  database: wordpress
+  user: wordpress
+  password: ""  # Auto-generated if empty
+  
+  # Storage
+  storage:
+    size: 5Gi
+    storageClass: ""  # Uses default if empty
+  
+  # Resources
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"
+
+# WordPress configuration
+wordpress:
+  image:
+    repository: wordpress
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  
+  # WordPress settings
+  title: "My WooCommerce Store"
+  adminUser: admin
+  adminPassword: ""  # Auto-generated if empty
+  adminEmail: admin@example.com
+  
+  # Storage for wp-content
+  storage:
+    size: 10Gi
+    storageClass: ""  # Uses default if empty
+  
+  # Resources
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "512Mi"
+      cpu: "250m"
+  
+  # Service configuration
+  service:
+    type: ClusterIP
+    port: 80
+
+# Labels to apply to all resources
+commonLabels:
+  app: urumi-store

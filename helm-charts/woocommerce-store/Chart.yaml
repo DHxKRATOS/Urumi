@@ -1,0 +1,13 @@
+apiVersion: v2
+name: woocommerce-store
+description: A Helm chart for deploying WooCommerce stores on Kubernetes
+type: application
+version: 1.0.0
+appVersion: "6.0"
+keywords:
+  - woocommerce
+  - wordpress
+  - e-commerce
+  - store
+maintainers:
+  - name: Urumi Team

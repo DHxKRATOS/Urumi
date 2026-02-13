@@ -1,0 +1,37 @@
+# Production values for VPS/cloud deployment
+
+storeName: "prod-store"
+
+ingress:
+  enabled: true
+  host: "store.example.com"
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  tls:
+    enabled: true
+    secretName: "store-tls"
+
+mysql:
+  storage:
+    size: 10Gi
+    storageClass: ""  # Use cloud provider default (gp2, pd-ssd, etc.)
+  resources:
+    requests:
+      memory: "1Gi"
+      cpu: "500m"
+    limits:
+      memory: "2Gi"
+      cpu: "1000m"
+
+wordpress:
+  storage:
+    size: 20Gi
+    storageClass: ""
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"

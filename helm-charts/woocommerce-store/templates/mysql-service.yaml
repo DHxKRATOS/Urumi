@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "woocommerce-store.fullname" . }}-mysql
+  labels:
+    {{- include "woocommerce-store.mysql.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3306
+      targetPort: mysql
+      protocol: TCP
+      name: mysql
+  selector:
+    {{- include "woocommerce-store.mysql.selectorLabels" . | nindent 4 }}
