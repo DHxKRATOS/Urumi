@@ -9,9 +9,14 @@ const logger = require('../utils/logger');
 const config = require('../config');
 
 /**
- * Validates store name
- * @param {string} storeName - Store name to validate
- * @returns {Object} Validation result
+ * Validates store name.
+ *
+ * This function checks if the provided storeName is valid based on several criteria:
+ * it must be a non-empty string, not exceed 20 characters, and match a specific
+ * regex pattern for lowercase alphanumeric characters with optional hyphens.
+ * If any validation fails, an appropriate message is returned.
+ *
+ * @param {string} storeName - Store name to validate.
  */
 const validateStoreName = (storeName) => {
   if (!storeName) {
@@ -133,8 +138,14 @@ const listStores = async (req, res) => {
 };
 
 /**
- * Get a single store by namespace
- * GET /api/stores/:namespace
+ * Get a single store by namespace.
+ *
+ * This function retrieves a store record from metadata using the provided namespace. It checks the store's status in Kubernetes and updates the metadata if the status has changed. Additionally, it fetches health information for the store and returns a comprehensive response. If the store is not found, appropriate error responses are sent.
+ *
+ * @param req - The request object containing the namespace in the parameters.
+ * @param res - The response object used to send the response back to the client.
+ * @returns A JSON response containing store details, including status and health information.
+ * @throws Error If an internal error occurs during the process.
  */
 const getStore = async (req, res) => {
   try {
