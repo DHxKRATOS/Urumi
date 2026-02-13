@@ -18,6 +18,9 @@ const server = app.listen(PORT, () => {
 });
 
 // Graceful shutdown
+/**
+ * Shuts down the server gracefully or forces shutdown after a timeout.
+ */
 const shutdown = (signal) => {
   logger.info(`Received ${signal}, shutting down gracefully...`);
   

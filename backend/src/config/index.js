@@ -3,6 +3,9 @@ const path = require('path');
 const os = require('os');
 
 // Helper function to expand ~ to home directory
+/**
+ * Expands a file path that starts with '~/' to the user's home directory.
+ */
 const expandHome = (filepath) => {
   if (filepath.startsWith('~/')) {
     return path.join(os.homedir(), filepath.slice(2));
